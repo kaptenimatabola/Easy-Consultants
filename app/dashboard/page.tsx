@@ -1,3 +1,14 @@
-const stages=[["New",12],["Qualified",7],["Contacted",5],["Discovery",3],["Proposal",2],["Won",1]];
-const actions=["Review new leads","Send discovery follow-ups","Prepare proposals","Onboard won clients"];
-export default function Dashboard(){return <main className="dashboard"><nav><b>Easy Consultants</b><span>CEO Command Center</span><a href="/">Public site</a></nav><section className="dashHero"><p className="eyebrow">INTERNATIONAL SALES ENGINE</p><h1>Turn attention into revenue.</h1><p className="lead">A single operating view for leads, opportunities, projects and recurring client growth.</p></section><section><div className="metricGrid"><article><small>PIPELINE</small><strong>30</strong><span>active records</span></article><article><small>QUALIFIED</small><strong>7</strong><span>ready for outreach</span></article><article><small>PROPOSALS</small><strong>2</strong><span>awaiting decision</span></article><article><small>WON</small><strong>1</strong><span>ready for onboarding</span></article></div></section><section><p className="eyebrow">PIPELINE</p><div className="pipeline">{stages.map(([name,count])=><article key={name}><small>{name}</small><strong>{count}</strong><div className="bar"><i style={{width:`${Math.min(Number(count)*8,100)}%`}}/></div></article>)}</div></section><section className="dark"><p className="eyebrow">TODAY</p><h2>Revenue actions</h2><div className="actionList">{actions.map((a,i)=><div key={a}><b>0{i+1}</b><span>{a}</span><em>→</em></div>)}</div></section><footer>Easy Consultants · Internal dashboard</footer></main>}
+"use client";
+import { useEffect, useState } from "react";
+import { supabase } from "../../lib/supabase";
+const stages=["new","qualified","contacted","discovery","proposal","won"];
+export default function Dashboard(){
+ const [leads,setLeads]=useState<any[]>([]); const [loading,setLoading]=useState(true);
+ useEffect(()=>{supabase.from("ec_leads").select("*").order("created_at",{ascending:false}).then(({data})=>{setLeads(data||[]);setLoading(false)})},[]);
+ const count=(s:string)=>leads.filter(x=>x.status===s).length;
+ return <main className="dashboard"><nav><b>Easy Consultants</b><span>CEO Command Center</span><a href="/">Public site</a></nav>
+ <section className="dashHero"><p className="eyebrow">LIVE SALES ENGINE</p><h1>Turn attention into revenue.</h1><p className="lead">Live CRM pipeline connected to the Easy Consultants operational database.</p></section>
+ <section><div className="metricGrid">{[["TOTAL",leads.length],["QUALIFIED",count("qualified")],["PROPOSALS",count("proposal")],["WON",count("won")]].map(([a,b])=><article key={String(a)}><small>{a}</small><strong>{b}</strong><span>live records</span></article>)}</div></section>
+ <section><p className="eyebrow">PIPELINE</p><div className="pipeline">{stages.map(s=><article key={s}><small>{s.toUpperCase()}</small><strong>{count(s)}</strong><div className="bar"><i style={{width:Math.min(count(s)*12,100)+"%"}}/></div></article>)}</div></section>
+ <section className="dark"><p className="eyebrow">LEADS</p><h2>{loading?"Loading CRM…":leads.length?"Latest prospects":"CRM ready for prospects"}</h2><div className="actionList">{leads.slice(0,10).map(l=><div key={l.id}><b>{l.status}</b><span>{l.full_name}{l.company?" · "+l.company:""}</span><em>{l.service||"General"} →</em></div>)}</div></section>
+ <footer>Easy Consultants · Internal dashboard</footer></main>}
