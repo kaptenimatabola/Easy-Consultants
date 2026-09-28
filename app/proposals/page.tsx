@@ -33,7 +33,7 @@ export default function Proposals(){
     setProposals(((ps||[]) as any[]).map(p=>({id:p.id,lead_id:p.lead_id,client_id:p.client_id,service_id:p.service_id,proposal_number:p.proposal_number,business_name:p.leads?.business_name||"Client",contact_name:p.leads?.contact_name||null,service:p.services?.name||"Service",amount:Number(p.amount),currency:p.currency,timeline:p.timeline||"",scope:p.scope||"",terms:p.terms||"",status:p.status,created_at:p.created_at})));
   }
 
-  useEffect(()=>{let mounted=true;supabase.auth.getUser().then(async({data})=>{if(!mounted)return;if(!data.user){router.replace("/login");return;}setUser(data.user);await load();if(mounted){setProposals([])}});return()=>{mounted=false}},[router]);
+  useEffect(()=>{let mounted=true;supabase.auth.getUser().then(async({data})=>{if(!mounted)return;if(!data.user){router.replace("/login");return;}setUser(data.user);await load();});return()=>{mounted=false}},[router]);
 
   function serviceChanged(id:string){
     const service=services.find(x=>x.id===id);
