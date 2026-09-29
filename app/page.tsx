@@ -30,7 +30,7 @@ export default function Home(){
   }
 
   return <main>
-    <nav><b>Easy Consultants</b><span>Strategy · Technology · Growth</span><a href="#contact">Start a project</a></nav>
+    <nav><b>Easy Consultants</b><span>Strategy · Technology · Growth</span><span><a href="https://wa.me/26662667123">WhatsApp +266 6266 7123</a> · <a href="#contact">Start a project</a></span></nav>
     <section className="hero"><p className="eyebrow">INTERNATIONAL CONSULTING & AUTOMATION</p><h1>Build smarter.<br/>Grow faster.<br/><em>Go global.</em></h1><p className="lead">Easy Consultants helps businesses turn ideas into brands, digital products, automated operations and measurable growth.</p><div><a className="btn" href="#contact">Book a consultation</a><a className="ghost" href="#services">Explore services</a></div></section>
     <section id="services"><p className="eyebrow">WHAT WE DO</p><h2>One growth partner. An entire business engine.</h2><div className="grid">{services.map((s,i)=><article key={s}><small>0{i+1}</small><h3>{s}</h3><p>Professional systems, execution and automation designed around your commercial goals.</p></article>)}</div></section>
     <section className="dark"><p className="eyebrow">THE EASY MODEL</p><h2>Strategy → Build → Automate → Acquire → Scale</h2><p>We combine consulting, creative production, software and revenue systems into one operating layer.</p></section>
@@ -46,7 +46,7 @@ export default function Home(){
         {error&&<p className="formError">{error}</p>}
         <button className="btn" disabled={busy}>{busy?"Submitting…":"Submit project enquiry"}</button>
       </form>}
-      <p>Prefer email? <a href="mailto:jeremiahmatabola@gmail.com">jeremiahmatabola@gmail.com</a></p>
+      <p>Prefer email? <a href="mailto:jeremiahmatabola@gmail.com">jeremiahmatabola@gmail.com</a> · <a href="https://wa.me/26662667123">WhatsApp us</a></p>
     </section>
     <footer>© 2026 Easy Consultants · Global by design.</footer>
   </main>
